@@ -7,6 +7,7 @@ import {
     View,
     TouchableOpacity,
     Text,
+    Alert,
 } from "react-native";
 import stringLength from "string-length";
 import { Link, useNavigate } from "react-router-native";
@@ -32,20 +33,30 @@ export const Inputs = ({ func }) => {
     // };
 
     const getName = () => {
-        func(country);
-        navigate("/countrylist");
+        if (country === undefined || country === "") {
+            setDisable(true);
+            Alert.alert("Country name can't be empty");
+        } else {
+            console.log("hi");
+            func(country);
+            navigate("/countrylist");
+        }
     };
-
+    console.log(country);
+    const handleDisable = (e) => {
+        setCountry(e);
+        setDisable(false);
+    };
     // 6d443c7d0700a26796147476c7b96659
     return (
         <>
             <TextInput
-                onChangeText={(e) => setCountry(e)}
+                onChangeText={handleDisable}
                 style={styles.inputContainer}
                 placeholder={"Enter Your Country"}
             />
 
-            <TouchableOpacity disabled={disable} onPress={getName}>
+            <TouchableOpacity onPress={getName}>
                 <View style={styles.wrapper}>
                     <Text style={styles.button}>Click me</Text>
                 </View>
